@@ -41,6 +41,11 @@ class client extends s3_client {
         if ($this->get_availability() && !empty($config)) {
             // Without this, get_maximum_upload_size() is NULL and the pusher finds no candidates.
             $this->maxupload = OBJECTFS_BYTES_IN_TERABYTE * 5;
+            // Same as the S3 constructor. Without these, presigned_url_configured() is always false.
+            $this->expirationtime = $config->expirationtime;
+            $this->presignedminfilesize = $config->presignedminfilesize;
+            $this->enablepresignedurls = $config->enablepresignedurls;
+            $this->signingmethod = $config->signingmethod;
             $this->bucket = $config->do_space;
             $this->set_client($config);
         } else {
